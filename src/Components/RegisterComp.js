@@ -1,10 +1,11 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 
 const RegisterComp = () => {
 
     const usernameRef = useRef();
     const passOneRef = useRef();
     const passTwoRef = useRef();
+    const [getMsg, setMsg] = useState("");
 
     async function register() {
         const username = usernameRef.current.value;
@@ -30,6 +31,8 @@ const RegisterComp = () => {
         const data = await res.json();
 
         console.log(data)
+        if (data.success) setMsg("");
+        if (!data.success) setMsg(data.message)
     }
 
     return (
@@ -38,6 +41,7 @@ const RegisterComp = () => {
             <input type="text" ref={passOneRef} placeholder="Password One"/>
             <input type="text" ref={passTwoRef} placeholder="Password Two"/>
             <button className="regBtn" onClick={register}>Register</button>
+            <div className="d-flex j-center mt-30">{getMsg}</div>
         </div>
     );
 };

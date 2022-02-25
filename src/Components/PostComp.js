@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
 const PostComp = () => {
@@ -8,6 +8,7 @@ const PostComp = () => {
     const priceRef = useRef();
     const durationRef = useRef();
     const navigate = useNavigate();
+    const [getMsg, setMsg] = useState("");
 
     async function create() {
         console.log(imgRef.current.value)
@@ -35,7 +36,12 @@ const PostComp = () => {
         const res = await fetch("http://localhost:5000/create", options);
         const data = await res.json();
 
-        if (data.success) navigate("/all")
+        if (data.success) {
+            navigate("/all")
+            setMsg("");
+        } else {
+            setMsg(data.message)
+        }
     }
 
     return (
@@ -60,6 +66,7 @@ const PostComp = () => {
             </select>
             </div>
             <button onClick={create}>Create</button>
+            <div className="d-flex j-center mt-30">{getMsg}</div>
         </div>
     );
 };

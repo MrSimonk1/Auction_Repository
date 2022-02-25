@@ -38,14 +38,20 @@ const ToolbarComp = () => {
 
     function loggedIn() {
         return (
-            <div className="toolbar d-flex">
-                <div>{getUser.username}</div>
-                <div>{getUser.money}$</div>
-                <div onClick={() => navigate("/history")}>My auctions</div>
-                <div onClick={() => navigate("/my-bids")}>Auctions with my bids</div>
-                <div onClick={() => navigate("/create")}>Post to auction</div>
-                <div onClick={() => navigate("/all")}>All auctions</div>
-                <div onClick={() => logout()}>Logout</div>
+            <div className="d-flex">
+                <div className="toolbar d-flex grow1">
+                    <div>{getUser.username}</div>
+                    <div>{getUser.money}$</div>
+                </div>
+                <div className="toolbar d-flex grow5">
+                    <div onClick={() => navigate("/history")}>My auctions</div>
+                    <div onClick={() => navigate("/my-bids")}>Auctions with my bids</div>
+                    <div onClick={() => navigate("/create")}>Post to auction</div>
+                    <div onClick={() => navigate("/all")}>All auctions</div>
+                    <div onClick={() => logout()}>Logout</div>
+                </div>
+
+
             </div>
         )
     }

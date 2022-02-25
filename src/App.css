@@ -14,6 +14,14 @@
     flex: 2;
 }
 
+.grow9 {
+    flex: 9;
+}
+
+.grow5 {
+    flex: 5;
+}
+
 h4 {
     margin: 0;
 }
@@ -41,6 +49,7 @@ h4 {
 .ml-5 {
     margin-left: 5px;
 }
+
 
 .mt-30 {
     margin-top: 30px;

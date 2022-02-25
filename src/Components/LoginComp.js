@@ -9,7 +9,7 @@ const LoginComp = () => {
 
     const usernameRef = useRef();
     const passwordRef = useRef();
-    const [getMessage, setMessage] = useState(null);
+    const [getMessage, setMessage] = useState("");
     const {setUser} = useContext(MyContext);
     const navigate = useNavigate();
 
@@ -34,9 +34,12 @@ const LoginComp = () => {
 
             console.log(data);
             if (data.success) {
-                setMessage(null);
+                setMessage("");
                 setUser(data.findUser);
                 navigate("/create")
+            }
+            if (!data.success) {
+                setMessage(data.message);
             }
         }
     }
@@ -48,7 +51,7 @@ const LoginComp = () => {
                 <input type="text" ref={passwordRef} placeholder="Password One"/>
                 <button className="regBtn" onClick={login}>Login</button>
             </div>
-            {getMessage && <div className="d-flex j-center">{getMessage}</div>}
+            <div className="d-flex j-center mt-30">{getMessage}</div>
         </div>
     );
 };
