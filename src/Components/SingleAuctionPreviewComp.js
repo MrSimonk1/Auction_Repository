@@ -56,6 +56,7 @@ const SingleAuctionPreviewComp = ({oneItem}) => {
                 <img src={oneItem.image} alt=""/>
             </div>
             <div className="grow2 d-flex column j-center">
+                <h3>{oneItem.title}</h3>
                 <div>Owner: {oneItem.owner}</div>
                 <div className="mt-mb-10">
                     <div>Start price: {oneItem.startPrice} $</div>

@@ -172,6 +172,7 @@ const SingleComp = () => {
                     <img src={getOne.image} alt=""/>
                 </div>
                 <div className="grow2 d-flex column j-center">
+                    <h3>Title: {getOne.title}</h3>
                     <div>Owner: {getOne.owner}</div>
                     <div className="mt-mb-10">
                         <div>Start price: {getOne.startPrice} $</div>

@@ -56,6 +56,7 @@ const BidsComp = () => {
                                 <img src={x.image} alt=""/>
                             </div>
                             <div className="grow2 d-flex column j-center">
+                                <h3>{x.title}</h3>
                                 <div>Owner: {x.owner}</div>
                                 <div className="mt-mb-10">
                                     <div>Start price: {x.startPrice} $</div>
