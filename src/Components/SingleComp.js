@@ -17,6 +17,7 @@ const SingleComp = () => {
     const [getMinutes, setMinutes] = useState(null);
     const [getSeconds, setSeconds] = useState(null);
     const [getActive, setActive] = useState(true);
+    const [getMsg, setMsg] = useState("");
 
     if (getOne) {
         const endTime = getOne.endTime - Date.now();
@@ -149,6 +150,7 @@ const SingleComp = () => {
                 socket.on("setPost", item => {
                     setOne(item);
                 })
+                setMsg("")
 
                 // socket.emit("getUserOnAuction", {getUser, bids: getOne.bids});
                 // socket.on("setUser", user => {
@@ -156,6 +158,9 @@ const SingleComp = () => {
                 // })
 
                 setUser(data.bidder);
+            }
+            if (!data.success) {
+                setMsg(data.message)
             }
         }
     }
@@ -170,7 +175,7 @@ const SingleComp = () => {
                     <div>Owner: {getOne.owner}</div>
                     <div className="mt-mb-10">
                         <div>Start price: {getOne.startPrice} $</div>
-                        <div>Current bid: {getOne.currentPrice} $</div>
+                        <h4>Current bid: {getOne.currentPrice} $</h4>
                         <div className="d-flex">Current highest bidder: {getOne ? highestBidder() : "None"}</div>
                         <div>Bids: {getOne.bids.length}</div>
                     </div>
@@ -181,6 +186,7 @@ const SingleComp = () => {
                         </div>}
                     </div>
                     {getActive && bidBtn()}
+                    <div className="mt-5">{getMsg}</div>
                 </div>
             </div>}
             {getOne && bidHistory()}
