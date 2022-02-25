@@ -2,6 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useContext} from "react";
 import {MyContext} from "../contexts/MyContext";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:5000");
 
 const SingleComp = () => {
 
@@ -19,13 +22,14 @@ const SingleComp = () => {
         const endTime = getOne.endTime - Date.now();
         console.log(endTime);
 
-        const interval = setInterval(timer, 1000)
+        const interval = setInterval(timer, 1000);
+
+
         let hours = "00";
         let minutes = "00";
         let seconds = "00";
 
         function timer() {
-
             if (Math.floor(endTime/1000/60/60) >= 10) {
                 hours = Math.floor(endTime/1000/60/60)
             } else if (Math.floor(endTime/1000/60/60) >= 0 && Math.floor(endTime/1000/60/60) < 10) {
@@ -47,12 +51,11 @@ const SingleComp = () => {
             setMinutes(minutes);
             setSeconds(seconds);
 
-            if ((getHours === "00" && getMinutes === "00" && getSeconds === "00")) {
+            if ((hours === "00" && minutes === "00" && seconds === "00")) {
                 setActive(false);
             } else {
                 setActive(true);
             }
-
             clearInterval(interval)
         }
     }
@@ -66,21 +69,24 @@ const SingleComp = () => {
             )
     }
 
-    useEffect(async () => {
-        const options = {
-            method: "GET",
-            headers: {
-                "content-type" : "application/json"
-            },
-            credentials: "include"
-        }
-        const res = await fetch("http://localhost:5000/single/" + id, options)
-        const data = await res.json();
+    useEffect( () => {
+        async function fetchData() {
+            const options = {
+                method: "GET",
+                headers: {
+                    "content-type" : "application/json"
+                },
+                credentials: "include"
+            }
+            const res = await fetch("http://localhost:5000/single/" + id, options)
+            const data = await res.json();
 
-        console.log(data);
-        if (data.success) {
-            setOne(data.post);
+            console.log(data);
+            if (data.success) {
+                setOne(data.post);
+            }
         }
+        fetchData();
     }, [])
 
     function displayDate(timeStamp) {
@@ -102,7 +108,7 @@ const SingleComp = () => {
     function bidHistory() {
         if (getOne.bids.length === 0) {
             return (
-                <div className="d-flex j-center">No bids yet - be the first bidder</div>
+                <div className="d-flex j-center">This auction has no bids</div>
             )
         } else {
             return (
@@ -119,7 +125,6 @@ const SingleComp = () => {
 
     async function makeBid() {
         if (bidRef.current.value) {
-            console.log(bidRef.current.value);
             const info = {
                 id,
                 bid: bidRef.current.value
@@ -140,6 +145,11 @@ const SingleComp = () => {
                 setOne(data.item);
                 setUser(data.bidder);
             }
+
+            socket.emit("getPost", id);
+            socket.on("setPost", item => {
+                setOne(item);
+            })
         }
     }
 
@@ -151,11 +161,18 @@ const SingleComp = () => {
                 </div>
                 <div className="grow2 d-flex column j-center">
                     <div>Owner: {getOne.owner}</div>
-                    <div>Start price: {getOne.startPrice}</div>
-                    <div>Current bid: {getOne.currentPrice}</div>
-                    <div className="d-flex">Current highest bidder: {getOne ? highestBidder() : "None"}</div>
-                    <div>Time remaining: {getHours}:{getMinutes}:{getSeconds}</div>
-                    <div>Bids: {getOne.bids.length}</div>
+                    <div className="mt-mb-10">
+                        <div>Start price: {getOne.startPrice} $</div>
+                        <div>Current bid: {getOne.currentPrice} $</div>
+                        <div className="d-flex">Current highest bidder: {getOne ? highestBidder() : "None"}</div>
+                        <div>Bids: {getOne.bids.length}</div>
+                    </div>
+                    <div style={getActive ? null : {color: "#949494"}}>
+                        <div>Time remaining: {getHours}:{getMinutes}:{getSeconds}</div>
+                        {!getActive && <div>
+                            {getOne.bids.length !== 0 ? <div>Won by {getOne.bids[0].username} for {getOne.bids[0].price} $</div> : <div>This auction finished without a winner</div>}
+                        </div>}
+                    </div>
                     {getActive && bidBtn()}
                 </div>
             </div>}

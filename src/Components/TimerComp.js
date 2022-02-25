@@ -33,7 +33,7 @@ const TimerComp = ({timeStamp, bids}) => {
         setMinutes(minutes);
         setSeconds(seconds);
 
-        if ((getHours === "00" && getMinutes === "00" && getSeconds === "00")) {
+        if ((hours === "00" && minutes === "00" && seconds === "00")) {
             setActive(false);
         } else {
             setActive(true);
@@ -43,7 +43,7 @@ const TimerComp = ({timeStamp, bids}) => {
     }
 
     return (
-        <div>
+        <div style={getActive ? null : {color: "#949494"}}>
             Time remaining: {getHours}:{getMinutes}:{getSeconds}
             {!getActive && <div>
                 {bids.length !== 0 ? <div>Won by: {bids[0].username} for {bids[0].price} $</div> : <div>Auction finished without a winner</div>}

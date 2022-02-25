@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
 const SingleAuctionPreviewComp = ({oneItem}) => {
@@ -8,6 +8,7 @@ const SingleAuctionPreviewComp = ({oneItem}) => {
     const [getHours, setHours] = useState("00");
     const [getMinutes, setMinutes] = useState("00");
     const [getSeconds, setSeconds] = useState("00");
+    const [getActive, setActive] = useState(true);
     const endTime = oneItem.endTime - Date.now();
     console.log(endTime);
 
@@ -36,10 +37,14 @@ const SingleAuctionPreviewComp = ({oneItem}) => {
         setMinutes(minutes);
         setSeconds(seconds);
 
+        if ((hours === "00" && minutes === "00" && seconds === "00")) {
+            setActive(false);
+        } else {
+            setActive(true);
+        }
+
         clearInterval(interval)
     }
-
-
 
     function goToSinglePost() {
         navigate("/single/" + oneItem._id);
@@ -52,10 +57,17 @@ const SingleAuctionPreviewComp = ({oneItem}) => {
             </div>
             <div className="grow2 d-flex column j-center">
                 <div>Owner: {oneItem.owner}</div>
-                <div>Start price: {oneItem.startPrice}</div>
-                <div>Current price: {oneItem.currentPrice}</div>
-                <div>Time remaining: {getHours}:{getMinutes}:{getSeconds}</div>
-                <div>Bids: {oneItem.bids.length}</div>
+                <div className="mt-mb-10">
+                    <div>Start price: {oneItem.startPrice}</div>
+                    <div>Current price: {oneItem.currentPrice}</div>
+                    <div>Bids: {oneItem.bids.length}</div>
+                </div>
+                <div style={getActive ? null : {color: "#949494"}}>
+                    <div>Time remaining: {getHours}:{getMinutes}:{getSeconds}</div>
+                    {!getActive && <div>
+                        {oneItem.bids.length !== 0 ? <div>Won by: {oneItem.bids[0].username} for {oneItem.bids[0].price} $</div> : <div>Auction finished without a winner</div>}
+                    </div>}
+                </div>
             </div>
 
         </div>

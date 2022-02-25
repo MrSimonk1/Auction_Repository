@@ -34,6 +34,11 @@
     margin-left: 5px;
 }
 
+.mt-mb-10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .space-btw {
     justify-content: space-between;
 }
@@ -85,4 +90,6 @@
     max-height: 200px;
     max-width: 100%;
 }
+
+
 

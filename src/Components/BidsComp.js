@@ -8,22 +8,26 @@ const BidsComp = () => {
     const [getUsername, setUsername] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(async () => {
-        const options = {
-            method: "GET",
-            headers: {
-                "content-type" : "application/json"
-            },
-            credentials: "include"
-        }
-        const res = await fetch("http://localhost:5000/get-all", options);
-        const data = await res.json();
+    useEffect( () => {
+        async function fetchData() {
+            const options = {
+                method: "GET",
+                headers: {
+                    "content-type" : "application/json"
+                },
+                credentials: "include"
+            }
+            const res = await fetch("http://localhost:5000/get-all", options);
+            const data = await res.json();
 
-        console.log(data)
-        if (data.success) {
-            setItems(data.allPosts)
-            setUsername(data.username);
+            console.log(data)
+            if (data.success) {
+                setItems(data.allPosts)
+                setUsername(data.username);
+            }
         }
+        fetchData();
+
     }, [])
 
     function goToSinglePost(id) {
@@ -33,9 +37,9 @@ const BidsComp = () => {
     function filterMyHistory(items) {
         let myBids = [];
         let myBets = [];
-        items.map(x => {
+        items.forEach(x => {
             let includes = false;
-            x.bids.map(y => {
+            x.bids.forEach(y => {
                 if (y.username === getUsername) {
                     includes = true;
                     myBids.push(y);
@@ -53,11 +57,14 @@ const BidsComp = () => {
                             </div>
                             <div className="grow2 d-flex column j-center">
                                 <div>Owner: {x.owner}</div>
-                                <div>Start price: {x.startPrice} $</div>
-                                <div>My bid: {myBids[0].price} $</div>
-                                <div>Current highest bid: {x.currentPrice}$ by {x.bids[0].username}</div>
+                                <div className="mt-mb-10">
+                                    <div>Start price: {x.startPrice} $</div>
+                                    <div>My bid: {myBids[0].price} $</div>
+                                    <div>Current highest bid: {x.currentPrice}$</div>
+                                    <div>Current highest bidder: {x.bids[0].username}</div>
+                                    <div>Bids: {x.bids.length}</div>
+                                </div>
                                 <TimerComp timeStamp={x.endTime} bids={x.bids}/>
-                                <div>Bids: {x.bids.length}</div>
                             </div>
                         </div>)}
                 </div>

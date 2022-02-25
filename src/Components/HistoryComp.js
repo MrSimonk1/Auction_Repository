@@ -8,22 +8,25 @@ const HistoryComp = () => {
     const [getUsername, setUsername] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(async () => {
-        const options = {
-            method: "GET",
-            headers: {
-                "content-type" : "application/json"
-            },
-            credentials: "include"
-        }
-        const res = await fetch("http://localhost:5000/get-all", options);
-        const data = await res.json();
+    useEffect( () => {
+        async function fetchData() {
+            const options = {
+                method: "GET",
+                headers: {
+                    "content-type" : "application/json"
+                },
+                credentials: "include"
+            }
+            const res = await fetch("http://localhost:5000/get-all", options);
+            const data = await res.json();
 
-        console.log(data)
-        if (data.success) {
-            setItems(data.allPosts)
-            setUsername(data.username);
+            console.log(data)
+            if (data.success) {
+                setItems(data.allPosts)
+                setUsername(data.username);
+            }
         }
+        fetchData();
     }, [])
 
     function highestBidder(bids) {
@@ -41,7 +44,7 @@ const HistoryComp = () => {
 
     function filterMyHistory(items) {
        let myHistory = [];
-       items.map(x => {
+       items.forEach(x => {
            if (x.owner === getUsername) {
                myHistory.push(x)
            }
@@ -56,11 +59,13 @@ const HistoryComp = () => {
                             </div>
                             <div className="grow2 d-flex column j-center">
                                 <div>Owner: {x.owner}</div>
-                                <div>Start price: {x.startPrice} $</div>
-                                <div className="d-flex">Current price: {x.currentPrice} $</div>
-                                <div>{highestBidder(x.bids)}</div>
+                                <div className="mt-mb-10">
+                                    <div>Start price: {x.startPrice} $</div>
+                                    <div className="d-flex">Current price: {x.currentPrice} $</div>
+                                    <div>{highestBidder(x.bids)}</div>
+                                    <div>Bids: {x.bids.length}</div>
+                                </div>
                                 <TimerComp timeStamp={x.endTime} bids={x.bids}/>
-                                <div>Bids: {x.bids.length}</div>
                             </div>
                         </div>)}
                 </div>
