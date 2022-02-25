@@ -27,7 +27,9 @@ const AllPage = () => {
 
     return (
         <div>
-            {getItems && getItems.map((x, i) => <SingleAuctionPreviewComp key={i} oneItem={x}/>)}
+            {getItems && <div className="d-flex column-rev">
+                {getItems.length !== 0 ? getItems.map((x, i) => <SingleAuctionPreviewComp key={i} oneItem={x}/>)  : <div className="d-flex j-center mt-30">No auctions yet</div>}
+            </div>}
         </div>
     );
 };

@@ -51,15 +51,15 @@ const SingleAuctionPreviewComp = ({oneItem}) => {
     }
 
     return (
-        <div onClick={goToSinglePost} className="itemPreview d-flex">
-            <div className="grow1 j-center a-center d-flex">
+        <div className="itemPreview d-flex">
+            <div onClick={goToSinglePost} className="grow1 j-center a-center d-flex cursor-pointer">
                 <img src={oneItem.image} alt=""/>
             </div>
             <div className="grow2 d-flex column j-center">
                 <div>Owner: {oneItem.owner}</div>
                 <div className="mt-mb-10">
-                    <div>Start price: {oneItem.startPrice}</div>
-                    <div>Current price: {oneItem.currentPrice}</div>
+                    <div>Start price: {oneItem.startPrice} $</div>
+                    <h4>Current price: {oneItem.currentPrice} $</h4>
                     <div>Bids: {oneItem.bids.length}</div>
                 </div>
                 <div style={getActive ? null : {color: "#949494"}}>

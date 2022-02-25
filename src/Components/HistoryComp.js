@@ -51,17 +51,17 @@ const HistoryComp = () => {
        })
         if (myHistory.length !== 0) {
             return (
-                <div>
+                <div className="d-flex column-rev">
                     {myHistory.map(x =>
-                        <div onClick={() => goToSinglePost(x._id)} key={x._id} className="itemPreview d-flex">
-                            <div className="grow1 j-center a-center d-flex">
+                        <div key={x._id} className="itemPreview d-flex">
+                            <div onClick={() => goToSinglePost(x._id)} className="grow1 cursor-pointer j-center a-center d-flex">
                                 <img src={x.image} alt=""/>
                             </div>
                             <div className="grow2 d-flex column j-center">
                                 <div>Owner: {x.owner}</div>
                                 <div className="mt-mb-10">
                                     <div>Start price: {x.startPrice} $</div>
-                                    <div className="d-flex">Current price: {x.currentPrice} $</div>
+                                    <h4>Current price: {x.currentPrice} $</h4>
                                     <div>{highestBidder(x.bids)}</div>
                                     <div>Bids: {x.bids.length}</div>
                                 </div>
@@ -71,7 +71,7 @@ const HistoryComp = () => {
                 </div>
             )
         } else {
-            return <div className="d-flex j-center">You have not created any auctions</div>
+            return <div className="d-flex j-center mt-30">You have not created any auctions</div>
         }
     }
 

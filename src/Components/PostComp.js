@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import {useNavigate} from "react-router-dom";
 
 const PostComp = () => {
 
@@ -6,6 +7,7 @@ const PostComp = () => {
     const titleRef = useRef();
     const priceRef = useRef();
     const durationRef = useRef();
+    const navigate = useNavigate();
 
     async function create() {
         console.log(imgRef.current.value)
@@ -33,7 +35,7 @@ const PostComp = () => {
         const res = await fetch("http://localhost:5000/create", options);
         const data = await res.json();
 
-        console.log(data)
+        if (data.success) navigate("/all")
     }
 
     return (

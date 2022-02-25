@@ -49,10 +49,10 @@ const BidsComp = () => {
         })
         if (myBets.length !== 0) {
             return (
-                <div>
+                <div className="d-flex column-rev">
                     {myBets.map(x  =>
                         <div className="itemPreview d-flex" key={x._id}>
-                            <div onClick={() => goToSinglePost(x._id)} className="grow1 j-center a-center d-flex">
+                            <div onClick={() => goToSinglePost(x._id)} className="grow1 cursor-pointer j-center a-center d-flex">
                                 <img src={x.image} alt=""/>
                             </div>
                             <div className="grow2 d-flex column j-center">
@@ -60,7 +60,7 @@ const BidsComp = () => {
                                 <div className="mt-mb-10">
                                     <div>Start price: {x.startPrice} $</div>
                                     <div>My bid: {myBids[0].price} $</div>
-                                    <div>Current highest bid: {x.currentPrice}$</div>
+                                    <h4>Current highest bid: {x.currentPrice} $</h4>
                                     <div>Current highest bidder: {x.bids[0].username}</div>
                                     <div>Bids: {x.bids.length}</div>
                                 </div>
@@ -70,7 +70,7 @@ const BidsComp = () => {
                 </div>
             )
         } else {
-            return <div className="d-flex j-center">You have not placed any bet</div>
+            return <div className="d-flex j-center mt-30">You have not placed any bet</div>
         }
     }
 

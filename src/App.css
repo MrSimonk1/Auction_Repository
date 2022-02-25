@@ -14,12 +14,20 @@
     flex: 2;
 }
 
+h4 {
+    margin: 0;
+}
+
 .d-flex {
     display: flex;
 }
 
 .column {
     flex-direction: column;
+}
+
+.column-rev {
+    flex-direction: column-reverse;
 }
 
 .a-center {
@@ -34,9 +42,17 @@
     margin-left: 5px;
 }
 
+.mt-30 {
+    margin-top: 30px;
+}
+
 .mt-mb-10 {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 
 .space-btw {
@@ -89,6 +105,14 @@
 .itemPreview img {
     max-height: 200px;
     max-width: 100%;
+}
+
+.allBidsOfOneItem {
+    border: 1px solid #c4c4c4;
+    background-color: #eeeeee;
+    margin-bottom: 5px;
+    padding: 10px;
+    width: 80%;
 }
 
 

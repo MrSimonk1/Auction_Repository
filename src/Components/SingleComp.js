@@ -11,7 +11,7 @@ const SingleComp = () => {
     const {id} = useParams();
     const [getOne, setOne] = useState(null);
     const bidRef = useRef();
-    const {setUser} = useContext(MyContext);
+    const {setUser, getUser} = useContext(MyContext);
 
     const [getHours, setHours] = useState(null);
     const [getMinutes, setMinutes] = useState(null);
@@ -20,10 +20,8 @@ const SingleComp = () => {
 
     if (getOne) {
         const endTime = getOne.endTime - Date.now();
-        console.log(endTime);
 
         const interval = setInterval(timer, 1000);
-
 
         let hours = "00";
         let minutes = "00";
@@ -87,6 +85,11 @@ const SingleComp = () => {
             }
         }
         fetchData();
+
+        socket.emit("getPost", id);
+        socket.on("setPost", item => {
+            setOne(item);
+        })
     }, [])
 
     function displayDate(timeStamp) {
@@ -112,8 +115,8 @@ const SingleComp = () => {
             )
         } else {
             return (
-                <div>
-                    {getOne.bids.map((x, i) => <div key={i} className="d-flex">
+                <div className="d-flex column a-center">
+                    {getOne.bids.map((x, i) => <div key={i} className="allBidsOfOneItem d-flex">
                         <div className="grow1 d-flex j-center a-center">Username: {x.username}</div>
                         <div className="grow1 d-flex j-center a-center">Amount: {x.price}$</div>
                         <div className="grow1 d-flex j-center a-center">Time: {displayDate(x.time)}</div>
@@ -142,14 +145,18 @@ const SingleComp = () => {
 
             console.log(data);
             if (data.success) {
-                setOne(data.item);
+                socket.emit("getPost", id);
+                socket.on("setPost", item => {
+                    setOne(item);
+                })
+
+                // socket.emit("getUserOnAuction", {getUser, bids: getOne.bids});
+                // socket.on("setUser", user => {
+                //     setUser(user);
+                // })
+
                 setUser(data.bidder);
             }
-
-            socket.emit("getPost", id);
-            socket.on("setPost", item => {
-                setOne(item);
-            })
         }
     }
 
