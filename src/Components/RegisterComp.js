@@ -31,15 +31,20 @@ const RegisterComp = () => {
         const data = await res.json();
 
         console.log(data)
-        if (data.success) setMsg("");
+        if (data.success) {
+            setMsg("Registered succesfully");
+            setTimeout(() => {
+                setMsg("")
+            }, 3000);
+        }
         if (!data.success) setMsg(data.message)
     }
 
     return (
         <div className="regOrLogDiv d-flex column a-center">
             <input type="text" ref={usernameRef} placeholder="Username"/>
-            <input type="text" ref={passOneRef} placeholder="Password One"/>
-            <input type="text" ref={passTwoRef} placeholder="Password Two"/>
+            <input type="password" ref={passOneRef} placeholder="Password One"/>
+            <input type="password" ref={passTwoRef} placeholder="Password Two"/>
             <button className="regBtn" onClick={register}>Register</button>
             <div className="d-flex j-center mt-30">{getMsg}</div>
         </div>

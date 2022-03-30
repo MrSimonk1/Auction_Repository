@@ -48,7 +48,7 @@ const LoginComp = () => {
         <div>
             <div className="regOrLogDiv d-flex column a-center">
                 <input type="text" ref={usernameRef} placeholder="Username"/>
-                <input type="text" ref={passwordRef} placeholder="Password One"/>
+                <input type="password" ref={passwordRef} placeholder="Password One"/>
                 <button className="regBtn" onClick={login}>Login</button>
             </div>
             <div className="d-flex j-center mt-30">{getMessage}</div>
